@@ -1,0 +1,12 @@
+# Visual Studio tymczasowe
+.vs/
+out/
+build/
+x64/
+Debug/
+Release/
+
+# CMake tymczasowe
+CMakeFiles/
+CMakeCache.txt
+CMakeUserPresets.json
