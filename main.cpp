@@ -1,9 +1,17 @@
 #include<iostream>
+#include<vector>
+#include "graph_logic.h"
 using namespace std;
 
 int main() 
 {
-	int matrix[3][3] = { {1,1,0},{1,0,0},{1,0,0} };
-	cout << matrix[0][1];
+	using graph = std::vector<std::vector<int>>;
+	
+	graph G = {
+		{1},
+		{0, 2},
+		{1},
+	};
+	cout << czySpojny(G);
 	return 1;
 }
