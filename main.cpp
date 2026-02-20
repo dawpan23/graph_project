@@ -12,7 +12,34 @@ int main()
 		{0, 2},
 		{1},
 	};
-	cout << czySpojny(G) << endl;
-	cout << checkGraphStatus(G);
+	string typGrafu = checkGraphStatus(G);
+	if (typGrafu == "Pseudograf")
+	{
+		cout << "Graf jest pseudografem. Ciezko o dalsza, ciekawa analize";
+	}
+	else if (typGrafu == "Multigraf")
+	{
+		cout << "Graf jest multigrafem.";
+	}
+	else if (typGrafu == "Prosty")
+	{
+		cout << "Graf jest prosty. Sprawdzam czy jest sciezka... " << endl;
+		if (czySciezka(G))
+		{
+			cout << "Graf jest sciezka. Swietnie!" << endl;
+		}
+		else
+		{
+			cout << "Graf nie jest sciezka. Sprawdze czy ma cykle... " << endl;
+			if (czyCyklExists(G))
+			{
+				cout << "Ma cykl.";
+			}
+			else
+			{
+				cout << "Nie ma cyklu.";
+			}
+		}
+	}
 	return 1;
 }

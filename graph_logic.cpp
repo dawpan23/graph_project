@@ -90,5 +90,77 @@ string checkGraphStatus(const graph& G)
 
 bool czySciezka(const graph& G)
 {
+	//Uwaga: Funkcja zakłada, że graf jest prosty i spójny
+	int konceGrafu = 0;
+	int N = G.size();
+	int E = 0;
 
+	//edge case:
+	if (N == 1)
+	{
+		return true;
+	}
+
+	for (int i = 0; i < N; i++)
+	{
+		int stopien = G[i].size();
+		if (stopien > 2)
+		{
+			return false;
+		}
+		if (stopien == 1)
+		{
+			konceGrafu++;
+		}
+		if (konceGrafu > 2)
+		{
+			return false;
+		}
+		E += stopien;
+	}
+
+	E = E / 2; //Lemat o uściskach dłoni. Liczba krawędzi = Suma stopni wierzchołka podzielona na 2.
+
+	if (konceGrafu == 2 && E == (N - 1))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool czyCyklExists(const graph& G)
+{
+	int N = G.size();
+	std::vector<int> visited(N, 0);
+	std::vector<int> parent(N, -1); //Każdy wierzchołek ma "parenta" którego ma ignorować przy sprawdzaniu, czy spotkał kogoś innego, kto jest visited
+	std::queue<int> queue;
+	visited[0] = 1;
+	for (int v : G[0])
+	{
+		visited[v] = 1;
+		queue.push(v);
+		parent[v] = 0;
+	}
+	while (queue.size() != 0)
+	{
+		int idx = queue.front();
+		for (int v : G[idx])
+		{
+			if (visited[v] == 1)
+			{
+				if (parent[idx] != v)
+				{
+					return true;
+				}
+			}
+			else
+			{
+				visited[v] = 1;
+				queue.push(v);
+				parent[v] = idx;
+			}
+		}
+		queue.pop();
+	}
+	return false;
 }
