@@ -10,10 +10,14 @@ int main()
 	graph G = {
 		{1},
 		{0, 2},
-		{1},
+		{},
 	};
 	string typGrafu = checkGraphStatus(G);
-	if (typGrafu == "Pseudograf")
+	if (typGrafu == "Skierowany")
+	{
+		cout << "Graf skierowany. Program takich obecnie nie obsluguje.";
+	}
+	else if (typGrafu == "Pseudograf")
 	{
 		cout << "Graf jest pseudografem. Ciezko o dalsza, ciekawa analize";
 	}

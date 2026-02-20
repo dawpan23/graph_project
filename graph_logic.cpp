@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<queue>
+#include<algorithm>
 
 using namespace std;
 
@@ -39,10 +40,11 @@ bool czySpojny(const graph& G)
 	return false;
 }
 
-string checkGraphStatus(const graph& G)
+string checkGraphStatus(graph& G)
 {
 	bool multiGraph = false;
 	bool pseudoGraph = false;
+	bool directed = false;
 	int N = G.size();
 	std::vector<int> connections(N, 0);
 	std::vector<int> dirtyIndices;
@@ -73,6 +75,33 @@ string checkGraphStatus(const graph& G)
 			}
 			dirtyIndices.push_back(idx);
 		}
+	}
+
+	//Sprawdzam czy skierowany, najpierw sortowanie
+	for (std::vector<int>& idx : G)
+	{
+		std::sort(idx.begin(), idx.end());
+	}
+	for (int curr = 0; curr < G.size(); curr++)
+	{
+		std::vector<int>& idx = G[curr];
+		if (directed) { break; }
+		for (int i = 0; i < idx.size(); i++)
+		{
+			if (directed) { break; }
+
+			int inny = idx[i];
+			if (!std::binary_search(G[inny].begin(), G[inny].end(), curr))
+			{
+				directed = true;
+				break;
+			}
+		}
+	}
+	
+	if (directed)
+	{
+		return "Skierowany";
 	}
 	if (pseudoGraph)
 	{
@@ -164,3 +193,4 @@ bool czyCyklExists(const graph& G)
 	}
 	return false;
 }
+
