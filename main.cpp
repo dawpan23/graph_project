@@ -12,6 +12,7 @@ int main()
 		{0, 2},
 		{1},
 	};
-	cout << czySpojny(G);
+	cout << czySpojny(G) << endl;
+	cout << checkGraphStatus(G);
 	return 1;
 }
