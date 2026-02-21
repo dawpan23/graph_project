@@ -1,15 +1,44 @@
-/*#include<iostream>
-#include<vector>
-#include<queue>
+#include<fstream>
+#include "Graph.h"
 #include<algorithm>
+#include<sstream>
+#include<queue>
 
 using namespace std;
 
 using graph = std::vector<std::vector<int>>;
-
-bool czySpojny(const graph& G)
+//Wczytywanie grafu z pliku
+Graph::Graph(std::string filename)
 {
-	int N = G.size();
+	std::ifstream file(filename);
+	if (!file.is_open()) { return; }
+
+	int V;
+	file >> V;
+	file.ignore(); //Przeszkocz enter
+	this->numVertices = V;
+	adjList.resize(V);
+
+	int currV = 0;
+	std::string line;
+	while (std::getline(file, line) && currV < this->numVertices)
+	{
+		std::stringstream ss(line);
+		int neighbor;
+		while (ss >> neighbor)
+		{
+			this->adjList[currV].push_back(neighbor);
+		}
+		currV++;
+	}
+}
+
+
+
+bool Graph::czySpojny()
+{
+	graph& G = adjList;
+	int N = numVertices;
 	std::vector<int> visited(N, 0);
 	std::queue<int> queue;
 	visited[0] = 1;
@@ -40,12 +69,13 @@ bool czySpojny(const graph& G)
 	return false;
 }
 
-string checkGraphStatus(graph& G)
+string Graph::checkGraphStatus()
 {
+	graph& G = adjList;
 	bool multiGraph = false;
 	bool pseudoGraph = false;
 	bool directed = false;
-	int N = G.size();
+	int N = numVertices;
 	std::vector<int> connections(N, 0);
 	std::vector<int> dirtyIndices;
 	for (int i = 0; i < N; i++)
@@ -54,7 +84,7 @@ string checkGraphStatus(graph& G)
 		{
 			break;
 		}
-		std::vector<int> sasiedzi = G[i];
+		std::vector<int>& sasiedzi = G[i];
 		for (int dirty : dirtyIndices)
 		{
 			connections[dirty] = 0;
@@ -98,7 +128,7 @@ string checkGraphStatus(graph& G)
 			}
 		}
 	}
-	
+
 	if (directed)
 	{
 		return "Skierowany";
@@ -117,11 +147,12 @@ string checkGraphStatus(graph& G)
 	}
 }
 
-bool czySciezka(const graph& G)
+bool Graph::czySciezka()
 {
 	//Uwaga: Funkcja zakłada, że graf jest prosty i spójny
+	graph& G = adjList;
 	int konceGrafu = 0;
-	int N = G.size();
+	int N = numVertices;
 	int E = 0;
 
 	//edge case:
@@ -157,9 +188,10 @@ bool czySciezka(const graph& G)
 	return false;
 }
 
-bool czyCyklExists(const graph& G)
+bool Graph::czyCyklExists()
 {
-	int N = G.size();
+	int N = numVertices;
+	graph& G = adjList;
 	std::vector<int> visited(N, 0);
 	std::vector<int> parent(N, -1); //Każdy wierzchołek ma "parenta" którego ma ignorować przy sprawdzaniu, czy spotkał kogoś innego, kto jest visited
 	std::queue<int> queue;
@@ -193,5 +225,3 @@ bool czyCyklExists(const graph& G)
 	}
 	return false;
 }
-
-*/

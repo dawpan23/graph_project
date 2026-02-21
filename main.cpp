@@ -1,49 +1,31 @@
 #include<iostream>
 #include<vector>
-#include "graph_logic.h"
+#include "graph.h"
 using namespace std;
 
 int main() 
 {
-	using graph = std::vector<std::vector<int>>;
-	
-	graph G = {
-		{1},
-		{0, 2},
-		{},
-	};
-	string typGrafu = checkGraphStatus(G);
-	if (typGrafu == "Skierowany")
+	Graph g("graf.txt");
+
+	if (g.v() == 0)
 	{
-		cout << "Graf skierowany. Program takich obecnie nie obsluguje.";
+		cout << "Cos poszlo nie tak, graf sie nie wczytal/plik jest pusty" << endl;
+		return 1;
 	}
-	else if (typGrafu == "Pseudograf")
+
+	string graphType = g.checkGraphStatus();
+	cout << "Typ grafu: " << graphType << endl;
+	if (graphType != "Prosty")
 	{
-		cout << "Graf jest pseudografem. Ciezko o dalsza, ciekawa analize";
+		cout << "Poniewaz zwrocony typ grafu jest inny niz prosty, dalsza analiza moze nie zadzialac, wroc z grafem prostym.";
+		return 2;
 	}
-	else if (typGrafu == "Multigraf")
+	bool isSpojny = g.czySpojny();
+	cout << "Czy spojny? " << (isSpojny ? "Tak" : "Nie") << endl;
+	if (isSpojny)
 	{
-		cout << "Graf jest multigrafem.";
+		cout << "Czy cykle? " << (g.czyCyklExists() ? "Tak" : "Nie") << endl;
+		cout << "Czy sciezka?" << (g.czySciezka() ? "Tak" : "Nie") << endl;
 	}
-	else if (typGrafu == "Prosty")
-	{
-		cout << "Graf jest prosty. Sprawdzam czy jest sciezka... " << endl;
-		if (czySciezka(G))
-		{
-			cout << "Graf jest sciezka. Swietnie!" << endl;
-		}
-		else
-		{
-			cout << "Graf nie jest sciezka. Sprawdze czy ma cykle... " << endl;
-			if (czyCyklExists(G))
-			{
-				cout << "Ma cykl.";
-			}
-			else
-			{
-				cout << "Nie ma cyklu.";
-			}
-		}
-	}
-	return 1;
+	return 0;
 }
