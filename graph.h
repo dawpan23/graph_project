@@ -16,4 +16,5 @@ public:
 	bool czyCyklExists();
 
 	int v() const { return numVertices; }
+	std::vector<std::vector<int>> data() const { return adjList; }
 };

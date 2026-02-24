@@ -129,6 +129,7 @@ string Graph::checkGraphStatus()
 		}
 	}
 
+	//Na razie mam wywalone w skierowane grafy
 	if (directed)
 	{
 		return "Skierowany";

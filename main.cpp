@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include "graph.h"
+#include "draw_graph.h"
 using namespace std;
 
 int main() 
@@ -27,5 +28,7 @@ int main()
 		cout << "Czy cykle? " << (g.czyCyklExists() ? "Tak" : "Nie") << endl;
 		cout << "Czy sciezka?" << (g.czySciezka() ? "Tak" : "Nie") << endl;
 	}
+
+	wypiszWspolrzedne(g.data());
 	return 0;
 }
