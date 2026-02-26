@@ -25,3 +25,10 @@ target_link_libraries(OpisGrafow PRIVATE
     SFML::Window
     SFML::System
 )
+
+add_custom_command(TARGET OpisGrafow POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory
+    $<$<CONFIG:Debug>:C:/vcpkg/installed/x64-windows/debug/bin>
+    $<$<CONFIG:Release>:C:/vcpkg/installed/x64-windows/bin>
+    $<TARGET_FILE_DIR:OpisGrafow>
+)
