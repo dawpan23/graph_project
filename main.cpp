@@ -30,12 +30,20 @@ int main()
 		cout << "Czy sciezka?" << (g.czySciezka() ? "Tak" : "Nie") << endl;
 	}
 
-	wypiszWspolrzedne(g.data());
 
-	sf::RenderWindow window(sf::VideoMode({ 200, 200 }), "SFML works!");
+	//rozmiary okna
+	/*unsigned int width = 1600;
+	unsigned int height = 900;
+	sf::RenderWindow window(sf::VideoMode({ width, height }), "SFML works!");
 	sf::CircleShape shape(100.f);
 	shape.setFillColor(sf::Color::Green);
 
+	std::vector<sf::CircleShape> vertices;
+	vertices.resize(g.v());
+	for (int i = 0; i < g.v(); i++)
+	{
+		vertices[i].setRadius(20.f);
+	}
 	while (window.isOpen())
 	{
 		while (const std::optional event = window.pollEvent())
@@ -48,5 +56,6 @@ int main()
 		window.draw(shape);
 		window.display();
 	}
-	return 0;
+	return 0;*/
+	drawGraph(g);
 }

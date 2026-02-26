@@ -1,4 +1,6 @@
 #pragma once
 #include<vector>
+#include "graph.h"
+#include <SFML/Graphics.hpp>
 
-void wypiszWspolrzedne(std::vector<std::vector<int>> g);
+void drawGraph(Graph g);
