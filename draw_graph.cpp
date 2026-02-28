@@ -6,7 +6,8 @@
 #include<cmath>
 #include<iostream>
 #include <SFML/Graphics.hpp>
-
+#include <SFML/Graphics/VertexArray.hpp>
+#include <SFML/Graphics/Vertex.hpp>
 using namespace std;
 using graph = std::vector<std::vector<int>>;
 
@@ -20,7 +21,7 @@ std::vector<sf::Vector2f> wypiszWspolrzedne(Graph g, sf::Vector2f offset)
 	for (int i = 0; i < N; i++)
 	{
 		float x = 100 * cos(M_PI * 2 * i / N);
-		float y = 100 * sin(M_PI * 2 * i / N);
+		float y = -100 * sin(M_PI * 2 * i / N);
 		//cout << "Wspolrzedne wierzcholka " << i << ": " << round(x) << ", " << round(y) << endl;
 		wspolrzedne[i].x = x + offset.x;
 		wspolrzedne[i].y = y + offset.y;
@@ -34,20 +35,38 @@ void drawGraph(Graph g)
 	unsigned int width = 1600;
 	unsigned int height = 900;
 	sf::RenderWindow window(sf::VideoMode({ width, height }), "Wizualizacja grafu");
-	sf::CircleShape shape(100.f);
-	shape.setFillColor(sf::Color::Green);
-
 
 	std::vector<sf::Vector2f> wspolrzedne = wypiszWspolrzedne(g, { width / 2.0f , height / 2.0f });
+
+	//Wierzcholki
 	std::vector<sf::CircleShape> vertices;
 	vertices.resize(g.v());
+	float vertexRadius = 5;
 	for (int i = 0; i < g.v(); i++)
 	{
-		vertices[i].setRadius(20.f);
-		vertices[i].setOrigin({ 20.f, 20.f });
+		vertices[i].setRadius(vertexRadius);
+		vertices[i].setOrigin({ vertexRadius, vertexRadius });
 		vertices[i].setFillColor(sf::Color::White);
 		vertices[i].setPosition(wspolrzedne[i]);
 	}
+
+	//Krawedzie
+	std::vector<std::vector<int>>& data = g.data();
+	sf::VertexArray krawData(sf::PrimitiveType::Lines);
+
+	for (int i = 0; i < g.v(); i++)
+	{
+		for (int j = 0; j < data[i].size(); j++)
+		{
+			int sasiad = data[i][j];
+			if (i < sasiad)
+			{
+				krawData.append( { wspolrzedne[i], sf::Color::White, wspolrzedne[i] } );
+				krawData.append({ wspolrzedne[sasiad], sf::Color::White, wspolrzedne[sasiad] });
+			}
+		}
+	}
+
 	while (window.isOpen())
 	{
 		while (const std::optional event = window.pollEvent())
@@ -57,11 +76,11 @@ void drawGraph(Graph g)
 		}
 
 		window.clear();
-		window.draw(shape);
 		for (sf::CircleShape vertex : vertices)
 		{
 			window.draw(vertex);
 		}
+		window.draw(krawData);
 		window.display();
 	}
 	return;
