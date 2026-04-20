@@ -14,6 +14,7 @@ public:
 	std::string checkGraphStatus();
 	bool czySciezka();
 	bool czyCyklExists();
+	int diameter();
 
 	int v() const { return numVertices; }
 	std::vector<std::vector<int>> data() const { return adjList; }

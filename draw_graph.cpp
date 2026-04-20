@@ -34,14 +34,14 @@ void drawGraph(Graph g)
 	//rozmiary okna
 	unsigned int width = 1600;
 	unsigned int height = 900;
-	sf::RenderWindow window(sf::VideoMode({ width, height }), "Wizualizacja grafu");
+	sf::RenderWindow window(sf::VideoMode({ width, height }), "Graph visualisation");
 
 	std::vector<sf::Vector2f> wspolrzedne = wypiszWspolrzedne(g, { width / 2.0f , height / 2.0f });
 
 	//Wierzcholki
 	std::vector<sf::CircleShape> vertices;
 	vertices.resize(g.v());
-	float vertexRadius = 5;
+	float vertexRadius = 3;
 	for (int i = 0; i < g.v(); i++)
 	{
 		vertices[i].setRadius(vertexRadius);

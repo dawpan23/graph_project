@@ -132,19 +132,19 @@ string Graph::checkGraphStatus()
 	//Na razie mam wywalone w skierowane grafy
 	if (directed)
 	{
-		return "Skierowany";
+		return "Directed";
 	}
 	if (pseudoGraph)
 	{
-		return "Pseudograf";
+		return "Pseudograph";
 	}
 	else if (multiGraph)
 	{
-		return "Multigraf";
+		return "Multigraph";
 	}
 	else
 	{
-		return "Prosty";
+		return "Simple";
 	}
 }
 
@@ -225,4 +225,46 @@ bool Graph::czyCyklExists()
 		queue.pop();
 	}
 	return false;
+}
+
+int Graph::diameter()
+{
+	int N = numVertices;
+	graph& G = adjList;
+	std::vector<int> dist(N, -1);
+	std::vector<int> parent(N, -1);
+	dist[0] = 0;
+	std::queue<int> queue;
+	for (int v : G[0])
+	{
+		parent[v] = 0;
+		dist[v] = dist[0]+1;
+		queue.push(v);
+	}
+
+	int maxDist = 0;
+	while (queue.size() != 0)
+	{
+		int currV = queue.front();
+		for (int v : G[currV])
+		{
+			if (v != parent[currV])
+			{
+				if (dist[v] == -1)
+				{
+					dist[v] = dist[currV] + 1;
+					queue.push(v);
+					maxDist = max(maxDist, dist[v]);
+				}
+				else
+				{
+					dist[v] = min(dist[currV] + 1, dist[v]);
+					maxDist = max(maxDist, dist[v]);
+				}
+			}
+		}
+		queue.pop();
+	}
+
+	return maxDist;
 }

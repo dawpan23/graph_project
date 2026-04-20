@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(OpisGrafow
     main.cpp
-    graph_logic.cpp
-    graph_logic.h
     graph.cpp
     graph.h
     draw_graph.cpp

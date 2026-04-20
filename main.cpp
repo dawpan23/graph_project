@@ -7,27 +7,33 @@ using namespace std;
 
 int main()
 {
-	Graph g("graf.txt");
+	Graph g("graph.txt");
 
 	if (g.v() == 0)
 	{
-		cout << "Cos poszlo nie tak, graf sie nie wczytal/plik jest pusty" << endl;
+		cout << "Something is wrong, the graph is empty" << endl;
 		return 1;
 	}
 
 	string graphType = g.checkGraphStatus();
-	cout << "Typ grafu: " << graphType << endl;
-	if (graphType != "Prosty")
+	cout << "Graph type: " << graphType << endl;
+	if (graphType != "Simple")
 	{
-		cout << "Poniewaz zwrocony typ grafu jest inny niz prosty, dalsza analiza moze nie zadzialac, wroc z grafem prostym.";
+		cout << "Because the graph is not simple, further analysis might fail (for now). To test the program further, use a simple graph.";
 		return 2;
 	}
 	bool isSpojny = g.czySpojny();
-	cout << "Czy spojny? " << (isSpojny ? "Tak" : "Nie") << endl;
+	cout << "Is it connected? " << (isSpojny ? "Yes" : "No") << endl;
 	if (isSpojny)
 	{
-		cout << "Czy cykle? " << (g.czyCyklExists() ? "Tak" : "Nie") << endl;
-		cout << "Czy sciezka?" << (g.czySciezka() ? "Tak" : "Nie") << endl;
+		bool isCykl = g.czyCyklExists();
+		cout << "Are there cycles? " << (isCykl ? "Yes" : "No") << endl;
+		cout << "Is it a path? " << (g.czySciezka() ? "Yes" : "No") << endl;
+		if (!isCykl)
+		{
+			cout << "This graph is a tree." << endl;
+		}
 	}
+	cout << "Graph diameter: " << g.diameter() << endl;
 	drawGraph(g);
 }
